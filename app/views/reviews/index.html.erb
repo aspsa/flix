@@ -1,0 +1,37 @@
+<header id="content-header">
+  <h1>Reviews for <%= link_to(@movie.title, @movie) %></h1>
+</header>
+
+<ol id="reviews">
+  <% @reviews.each do |review| %>
+    <li>
+      <span class="review"><%= pluralize(review.stars, 'star') %></span>
+      <span class="user"></span>by <%= review.name %></span>
+      <span class="date">
+        <%= time_ago_in_words(review.created_at) %> ago
+        
+        <%= link_to "Edit", edit_movie_review_path(@movie, review), class: "button" %>
+            
+        <!--
+          The following commented statement is an abbreviated form of the
+          statement that follows. For now, to better understand what is
+          required, I opted for the explicit link path, which includes and
+          requires both the @movie and the review objects. Ruby on Rails
+          understands that the link_to helper is being passed their IDs.
+          The object IDs match the URL path defined by the 'movie_review'
+          DELETE route: /movies/:movie_id/reviews/:id
+          
+          The ':movie_id' URL parameter is matched to the '@movie' ID, and
+          the ':id' URL parameter is matched to the 'review' ID.
+        -->
+        <!--%= link_to "Delete", [@movie, review], class: "button", method: :delete,
+            data: { confirm: "Are you sure?" } %-->
+        <%= link_to "Delete", movie_review_path(@movie, review), class: "button", method: :delete,
+            data: { confirm: "Are you sure?" } %>
+      </span>
+      <p>
+        &quot;<%= review.comment %>&quot;
+      </p>
+    </li>
+  <% end %>
+</ol>
